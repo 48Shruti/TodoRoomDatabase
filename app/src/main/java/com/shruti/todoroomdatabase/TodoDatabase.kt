@@ -11,22 +11,20 @@ abstract class TodoDatabase : RoomDatabase() {
     abstract fun todoDao(): TodoDao
 
     companion object {
-        @Volatile
-        private var INSTANCE: TodoDatabase? = null
+        private var todoDatabase: TodoDatabase? = null
 
         fun getDatabase(context: Context): TodoDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
+            if (todoDatabase == null) {
+                todoDatabase = Room.databaseBuilder(
+                    context,
                     TodoDatabase::class.java,
-                    "todo_database"
-                )
-                    .addMigrations(MIGRATION_1_2) // Add migration for schema changes
-                    .allowMainThreadQueries() // Not recommended, but keeping it as per your code
+                    context.resources.getString(R.string.app_name),
+                ).addMigrations(MIGRATION_1_2)
+                    .allowMainThreadQueries()
                     .build()
-                INSTANCE = instance
-                instance
+
             }
+            return todoDatabase!!
         }
 
         // Migration from version 1 to version 2 (modify as needed)

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 
 @Dao
@@ -18,6 +19,8 @@ interface TodoDao {
     fun insertSub(subTaskEntity: SubTaskEntity)
     @Query("SELECT * FROM SubTaskEntity where todoId = :todoId")
     fun getSub(todoId : Int): List<SubTaskEntity>
+    @Update
+    fun updateSub(subTaskEntity: SubTaskEntity)
     @Delete
     fun deleteSub(subTaskEntity: SubTaskEntity)
 

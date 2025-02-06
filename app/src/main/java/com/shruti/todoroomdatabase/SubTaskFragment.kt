@@ -104,6 +104,22 @@ class SubTaskFragment : Fragment(), SubTaskAdapter.subInterface {
     }
 
     override fun show(subTaskEntity: SubTaskEntity, position: Int) {
-        TODO("Not yet implemented")
+        val dialog = Dialog(requireContext())
+        val dialogBinding = CustomDialogTodoBinding.inflate(layoutInflater)
+        dialog.setContentView(dialogBinding.root)
+        dialog.window?.setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
+        dialogBinding.etTodo.setText(item[position].name)
+        dialogBinding.btnCreate.setText("Update")
+        dialogBinding.btnCreate.setOnClickListener {
+            if (dialogBinding.etTodo.text.isNullOrEmpty()) {
+                dialogBinding.etTodo.error = "Enter Todo name"
+            } else {
+                todoDatabase.todoDao().updateSub(SubTaskEntity(id = item[position].id,name = dialogBinding.etTodo.text.toString(),todoId = todoId.toInt()))
+                getSub()
+                dialog.dismiss()
+            }
+        }
+        adapter.notifyDataSetChanged()
+        dialog.show()
     }
 }

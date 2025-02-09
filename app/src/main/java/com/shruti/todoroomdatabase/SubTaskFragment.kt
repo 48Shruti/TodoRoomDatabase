@@ -68,7 +68,7 @@ class SubTaskFragment : Fragment(), SubTaskAdapter.subInterface {
                 if (dialogBinding.etTodo.text.isNullOrEmpty()) {
                     dialogBinding.etTodo.error = "Enter Todo name"
                 } else {
-                    todoDatabase.todoDao().insertSub(SubTaskEntity(name = dialogBinding.etTodo.text.toString(), todoId = todoId.toInt()))
+                    todoDatabase.todoDao().insertSub(SubTaskEntity(subTaskName = dialogBinding.etTodo.text.toString(), todoId = todoId.toInt()))
                     getSub()
                     dialog.dismiss()
                 }
@@ -108,18 +108,24 @@ class SubTaskFragment : Fragment(), SubTaskAdapter.subInterface {
         val dialogBinding = CustomDialogTodoBinding.inflate(layoutInflater)
         dialog.setContentView(dialogBinding.root)
         dialog.window?.setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
-        dialogBinding.etTodo.setText(item[position].name)
+        dialogBinding.etTodo.setText(item[position].subTaskName)
         dialogBinding.btnCreate.setText("Update")
         dialogBinding.btnCreate.setOnClickListener {
             if (dialogBinding.etTodo.text.isNullOrEmpty()) {
                 dialogBinding.etTodo.error = "Enter Todo name"
             } else {
-                todoDatabase.todoDao().updateSub(SubTaskEntity(id = item[position].id,name = dialogBinding.etTodo.text.toString(),todoId = todoId.toInt()))
+                todoDatabase.todoDao().updateSub(SubTaskEntity(subTaskId = item[position].subTaskId, subTaskName = dialogBinding.etTodo.text.toString(), todoId = todoId.toInt()))
                 getSub()
                 dialog.dismiss()
             }
         }
         adapter.notifyDataSetChanged()
         dialog.show()
+    }
+
+    override fun delete(subTaskEntity: SubTaskEntity, position: Int) {
+       todoDatabase.todoDao().deleteSub(item[position])
+        getSub()
+        adapter.notifyDataSetChanged()
     }
 }

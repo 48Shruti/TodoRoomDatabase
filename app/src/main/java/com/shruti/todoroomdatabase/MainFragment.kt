@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.shruti.todoroomdatabase.databinding.ActivityMainBinding
 import com.shruti.todoroomdatabase.databinding.CustomDialogTodoBinding
 import com.shruti.todoroomdatabase.databinding.FragmentMainBinding
 
@@ -111,5 +110,35 @@ class MainFragment : Fragment() ,TodoAdapter.todoInterface{
         var bundle = Bundle()
         bundle.putString("todoId" , todoEntity.id.toString())
         findNavController().navigate(R.id.subTaskFragment,bundle )
+    }
+
+    override fun update(todoEntity: TodoEntity, position: Int) {
+        val dialog = Dialog(mainActivity)
+        val dialogBinding = CustomDialogTodoBinding.inflate(layoutInflater)
+        dialog.setContentView(dialogBinding.root)
+        dialogBinding.etTodo.setText(item[position].name)
+        dialogBinding.btnCreate.setText("Update")
+        dialog.window?.setLayout(
+            ActionBar.LayoutParams.MATCH_PARENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+        )
+        dialogBinding.btnCreate.setOnClickListener {
+            if (dialogBinding.etTodo.text.isNullOrEmpty()) {
+                dialogBinding.etTodo.error = "Enter Todo name"
+            } else {
+                todoDatabase.todoDao()
+                    .updateTodo(TodoEntity(id = item[position].id,name = dialogBinding.etTodo.text.toString()))
+                getTodo()
+                dialog.dismiss()
+            }
+        }
+        adapter.notifyDataSetChanged()
+        dialog.show()
+    }
+
+    override fun delete(todoEntity: TodoEntity, position: Int) {
+        todoDatabase.todoDao().deleteTodo(item[position])
+        getTodo()
+        adapter.notifyDataSetChanged()
     }
 }

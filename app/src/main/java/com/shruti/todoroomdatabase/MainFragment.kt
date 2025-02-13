@@ -1,7 +1,9 @@
 package com.shruti.todoroomdatabase
 
 import android.app.ActionBar
+import android.app.DatePickerDialog
 import android.app.Dialog
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shruti.todoroomdatabase.databinding.CustomDialogTodoBinding
 import com.shruti.todoroomdatabase.databinding.FragmentMainBinding
+import java.util.Calendar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,12 +68,13 @@ class MainFragment : Fragment() ,TodoAdapter.todoInterface{
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT
             )
+
             dialogBinding.btnCreate.setOnClickListener {
                 if (dialogBinding.etTodo.text.isNullOrEmpty()) {
                     dialogBinding.etTodo.error = "Enter Todo name"
                 } else {
                     todoDatabase.todoDao()
-                        .insertTodo(TodoEntity(name = dialogBinding.etTodo.text.toString()))
+                        .insertTodo(TodoEntity(name = dialogBinding.etTodo.text.toString(),))
                     getTodo()
                     dialog.dismiss()
                 }

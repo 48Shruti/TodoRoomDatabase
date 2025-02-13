@@ -3,7 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:id="@+id/checkbox"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,12 +16,23 @@
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:id="@+id/tvsub"/>
-    <ImageView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/baseline_delete_24"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:id="@+id/iv_delete"/>
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_delete_24"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:id="@+id/iv_delete"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="date"
+            android:id="@+id/date"/>
+</LinearLayout>
+
 
 </LinearLayout>

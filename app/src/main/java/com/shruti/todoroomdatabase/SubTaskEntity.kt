@@ -23,5 +23,8 @@ data class SubTaskEntity(
     val todoId: Int,
 
     @ColumnInfo(name = "SubTaskName")
-    val subTaskName: String
+    val subTaskName: String,
+    @ColumnInfo(name = "Completed")
+    var completed : Boolean = false,
+    var date : String ?= ""
 )
